@@ -1,0 +1,343 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="EmpleadosModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Curso">
+          <Key>
+            <PropertyRef Name="idCurso" />
+          </Key>
+          <Property Name="idCurso" Type="int" Nullable="false" />
+          <Property Name="nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="duracion" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Empleado">
+          <Key>
+            <PropertyRef Name="idEmpleado" />
+          </Key>
+          <Property Name="idEmpleado" Type="int" Nullable="false" />
+          <Property Name="nombre" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="puesto" Type="int" Nullable="false" />
+          <Property Name="fecha_alta" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EmpleadoCurso">
+          <Key>
+            <PropertyRef Name="idCurso" />
+            <PropertyRef Name="idEmpleado" />
+          </Key>
+          <Property Name="idCurso" Type="int" Nullable="false" />
+          <Property Name="idEmpleado" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EmpleadoProyecto">
+          <Key>
+            <PropertyRef Name="idEmpleado" />
+            <PropertyRef Name="idProyecto" />
+          </Key>
+          <Property Name="idEmpleado" Type="int" Nullable="false" />
+          <Property Name="idProyecto" Type="int" Nullable="false" />
+          <Property Name="horas" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Proyecto">
+          <Key>
+            <PropertyRef Name="idProyecto" />
+          </Key>
+          <Property Name="idProyecto" Type="int" Nullable="false" />
+          <Property Name="nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Puesto">
+          <Key>
+            <PropertyRef Name="idPuesto" />
+          </Key>
+          <Property Name="idPuesto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="salarioBase" Type="float" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Empleado_Puesto">
+          <End Role="Puesto" Type="Self.Puesto" Multiplicity="1" />
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Puesto">
+              <PropertyRef Name="idPuesto" />
+            </Principal>
+            <Dependent Role="Empleado">
+              <PropertyRef Name="puesto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmpleadoCurso_Curso">
+          <End Role="Curso" Type="Self.Curso" Multiplicity="1" />
+          <End Role="EmpleadoCurso" Type="Self.EmpleadoCurso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Curso">
+              <PropertyRef Name="idCurso" />
+            </Principal>
+            <Dependent Role="EmpleadoCurso">
+              <PropertyRef Name="idCurso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmpleadoCurso_Empleado">
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="1" />
+          <End Role="EmpleadoCurso" Type="Self.EmpleadoCurso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empleado">
+              <PropertyRef Name="idEmpleado" />
+            </Principal>
+            <Dependent Role="EmpleadoCurso">
+              <PropertyRef Name="idEmpleado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmpleadoProyecto_Empleado">
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="1" />
+          <End Role="EmpleadoProyecto" Type="Self.EmpleadoProyecto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empleado">
+              <PropertyRef Name="idEmpleado" />
+            </Principal>
+            <Dependent Role="EmpleadoProyecto">
+              <PropertyRef Name="idEmpleado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmpleadoProyecto_Proyecto">
+          <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="1" />
+          <End Role="EmpleadoProyecto" Type="Self.EmpleadoProyecto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proyecto">
+              <PropertyRef Name="idProyecto" />
+            </Principal>
+            <Dependent Role="EmpleadoProyecto">
+              <PropertyRef Name="idProyecto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EmpleadosModelStoreContainer">
+          <EntitySet Name="Curso" EntityType="Self.Curso" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Empleado" EntityType="Self.Empleado" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmpleadoCurso" EntityType="Self.EmpleadoCurso" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmpleadoProyecto" EntityType="Self.EmpleadoProyecto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Proyecto" EntityType="Self.Proyecto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Puesto" EntityType="Self.Puesto" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Empleado_Puesto" Association="Self.FK_Empleado_Puesto">
+            <End Role="Puesto" EntitySet="Puesto" />
+            <End Role="Empleado" EntitySet="Empleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmpleadoCurso_Curso" Association="Self.FK_EmpleadoCurso_Curso">
+            <End Role="Curso" EntitySet="Curso" />
+            <End Role="EmpleadoCurso" EntitySet="EmpleadoCurso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmpleadoCurso_Empleado" Association="Self.FK_EmpleadoCurso_Empleado">
+            <End Role="Empleado" EntitySet="Empleado" />
+            <End Role="EmpleadoCurso" EntitySet="EmpleadoCurso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmpleadoProyecto_Empleado" Association="Self.FK_EmpleadoProyecto_Empleado">
+            <End Role="Empleado" EntitySet="Empleado" />
+            <End Role="EmpleadoProyecto" EntitySet="EmpleadoProyecto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmpleadoProyecto_Proyecto" Association="Self.FK_EmpleadoProyecto_Proyecto">
+            <End Role="Proyecto" EntitySet="Proyecto" />
+            <End Role="EmpleadoProyecto" EntitySet="EmpleadoProyecto" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EmpleadosModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Puesto">
+          <Key>
+            <PropertyRef Name="idPuesto" />
+          </Key>
+          <Property Name="idPuesto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="salarioBase" Type="Double" Nullable="false" />
+          <NavigationProperty Name="Empleado" Relationship="EmpleadosModel.FK_Empleado_Puesto" FromRole="Puesto" ToRole="Empleado" />
+        </EntityType>
+        <EntityContainer Name="EmpleadosEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Puesto" EntityType="Self.Puesto" />
+          <EntitySet Name="Empleado" EntityType="EmpleadosModel.Empleado" />
+          <AssociationSet Name="FK_Empleado_Puesto" Association="EmpleadosModel.FK_Empleado_Puesto">
+            <End Role="Puesto" EntitySet="Puesto" />
+            <End Role="Empleado" EntitySet="Empleado" />
+          </AssociationSet>
+          <EntitySet Name="Curso" EntityType="EmpleadosModel.Curso" />
+          <AssociationSet Name="EmpleadoCurso" Association="EmpleadosModel.EmpleadoCurso">
+            <End Role="Curso" EntitySet="Curso" />
+            <End Role="Empleado" EntitySet="Empleado" />
+          </AssociationSet>
+          <EntitySet Name="EmpleadoProyecto" EntityType="EmpleadosModel.EmpleadoProyecto" />
+          <EntitySet Name="Proyecto" EntityType="EmpleadosModel.Proyecto" />
+          <AssociationSet Name="FK_EmpleadoProyecto_Empleado" Association="EmpleadosModel.FK_EmpleadoProyecto_Empleado">
+            <End Role="Empleado" EntitySet="Empleado" />
+            <End Role="EmpleadoProyecto" EntitySet="EmpleadoProyecto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmpleadoProyecto_Proyecto" Association="EmpleadosModel.FK_EmpleadoProyecto_Proyecto">
+            <End Role="Proyecto" EntitySet="Proyecto" />
+            <End Role="EmpleadoProyecto" EntitySet="EmpleadoProyecto" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Empleado">
+          <Key>
+            <PropertyRef Name="idEmpleado" />
+          </Key>
+          <Property Name="idEmpleado" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="puesto" Type="Int32" Nullable="false" />
+          <Property Name="fecha_alta" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Puesto1" Relationship="EmpleadosModel.FK_Empleado_Puesto" FromRole="Empleado" ToRole="Puesto" />
+          <NavigationProperty Name="Curso" Relationship="EmpleadosModel.EmpleadoCurso" FromRole="Empleado" ToRole="Curso" />
+          <NavigationProperty Name="EmpleadoProyecto" Relationship="EmpleadosModel.FK_EmpleadoProyecto_Empleado" FromRole="Empleado" ToRole="EmpleadoProyecto" />
+        </EntityType>
+        <Association Name="FK_Empleado_Puesto">
+          <End Type="EmpleadosModel.Puesto" Role="Puesto" Multiplicity="1" />
+          <End Type="EmpleadosModel.Empleado" Role="Empleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Puesto">
+              <PropertyRef Name="idPuesto" />
+            </Principal>
+            <Dependent Role="Empleado">
+              <PropertyRef Name="puesto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Curso">
+          <Key>
+            <PropertyRef Name="idCurso" />
+          </Key>
+          <Property Name="idCurso" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="duracion" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Empleado" Relationship="EmpleadosModel.EmpleadoCurso" FromRole="Curso" ToRole="Empleado" />
+        </EntityType>
+        <Association Name="EmpleadoCurso">
+          <End Type="EmpleadosModel.Curso" Role="Curso" Multiplicity="*" />
+          <End Type="EmpleadosModel.Empleado" Role="Empleado" Multiplicity="*" />
+        </Association>
+        <EntityType Name="EmpleadoProyecto">
+          <Key>
+            <PropertyRef Name="idEmpleado" />
+            <PropertyRef Name="idProyecto" />
+          </Key>
+          <Property Name="idEmpleado" Type="Int32" Nullable="false" />
+          <Property Name="idProyecto" Type="Int32" Nullable="false" />
+          <Property Name="horas" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Empleado" Relationship="EmpleadosModel.FK_EmpleadoProyecto_Empleado" FromRole="EmpleadoProyecto" ToRole="Empleado" />
+          <NavigationProperty Name="Proyecto" Relationship="EmpleadosModel.FK_EmpleadoProyecto_Proyecto" FromRole="EmpleadoProyecto" ToRole="Proyecto" />
+        </EntityType>
+        <EntityType Name="Proyecto">
+          <Key>
+            <PropertyRef Name="idProyecto" />
+          </Key>
+          <Property Name="idProyecto" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="EmpleadoProyecto" Relationship="EmpleadosModel.FK_EmpleadoProyecto_Proyecto" FromRole="Proyecto" ToRole="EmpleadoProyecto" />
+        </EntityType>
+        <Association Name="FK_EmpleadoProyecto_Empleado">
+          <End Type="EmpleadosModel.Empleado" Role="Empleado" Multiplicity="1" />
+          <End Type="EmpleadosModel.EmpleadoProyecto" Role="EmpleadoProyecto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empleado">
+              <PropertyRef Name="idEmpleado" />
+            </Principal>
+            <Dependent Role="EmpleadoProyecto">
+              <PropertyRef Name="idEmpleado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmpleadoProyecto_Proyecto">
+          <End Type="EmpleadosModel.Proyecto" Role="Proyecto" Multiplicity="1" />
+          <End Type="EmpleadosModel.EmpleadoProyecto" Role="EmpleadoProyecto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proyecto">
+              <PropertyRef Name="idProyecto" />
+            </Principal>
+            <Dependent Role="EmpleadoProyecto">
+              <PropertyRef Name="idProyecto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="EmpleadosModelStoreContainer" CdmEntityContainer="EmpleadosEntities">
+          <EntitySetMapping Name="Puesto">
+            <EntityTypeMapping TypeName="EmpleadosModel.Puesto">
+              <MappingFragment StoreEntitySet="Puesto">
+                <ScalarProperty Name="idPuesto" ColumnName="idPuesto" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="salarioBase" ColumnName="salarioBase" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Empleado">
+            <EntityTypeMapping TypeName="EmpleadosModel.Empleado">
+              <MappingFragment StoreEntitySet="Empleado">
+                <ScalarProperty Name="fecha_alta" ColumnName="fecha_alta" />
+                <ScalarProperty Name="puesto" ColumnName="puesto" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="idEmpleado" ColumnName="idEmpleado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Curso">
+            <EntityTypeMapping TypeName="EmpleadosModel.Curso">
+              <MappingFragment StoreEntitySet="Curso">
+                <ScalarProperty Name="duracion" ColumnName="duracion" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="idCurso" ColumnName="idCurso" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="EmpleadoCurso" TypeName="EmpleadosModel.EmpleadoCurso" StoreEntitySet="EmpleadoCurso">
+            <EndProperty Name="Empleado">
+              <ScalarProperty Name="idEmpleado" ColumnName="idEmpleado" />
+            </EndProperty>
+            <EndProperty Name="Curso">
+              <ScalarProperty Name="idCurso" ColumnName="idCurso" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="EmpleadoProyecto">
+            <EntityTypeMapping TypeName="EmpleadosModel.EmpleadoProyecto">
+              <MappingFragment StoreEntitySet="EmpleadoProyecto">
+                <ScalarProperty Name="horas" ColumnName="horas" />
+                <ScalarProperty Name="idProyecto" ColumnName="idProyecto" />
+                <ScalarProperty Name="idEmpleado" ColumnName="idEmpleado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Proyecto">
+            <EntityTypeMapping TypeName="EmpleadosModel.Proyecto">
+              <MappingFragment StoreEntitySet="Proyecto">
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="idProyecto" ColumnName="idProyecto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
